@@ -77,7 +77,7 @@ A representative example of the final expected output for chromsome 19 is provid
 
 
 ## /Results
-The [Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz](https://github.com/ElisaSalviato/3D-ETG/blob/main/Results/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz) file provide the complete list of candidate enhancer-target pairs (ETG) inferred in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687). The results are interactively consultable via shiny app at this [link](https://bioinformatics.ifom.eu/3D-ETG) or running the [app.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/app.R) script using:
+The [Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz](https://github.com/ElisaSalviato/3D-ETG/blob/main/Results/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz) file provide the complete list of candidate enhancer-target gene pairs (ETG) inferred in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687). The results are interactively consultable via shiny app at this [link](https://bioinformatics.ifom.eu/3D-ETG) or running the [app.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/app.R) script using:
 
 ```
 shiny::runApp("3D-ETG/")
