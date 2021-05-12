@@ -16,14 +16,15 @@ Its three key features are:
 ## /Data: input data
 
 The data required for the analysis are:
-1.	Matrices with signals for enhancers and promoters to quantify the synchronized activity;
-2.	Genomic regions that describe domains called by a TADs caller at multiple level of resolution. 
+1.	two sets of matrices containing activity status for enhancers and promoters;
+2.	genomic regions that describe hierarchy of chromatin structural domains derived from a set of Hi-C datasets. 
 
 
 ### 1. Data/Roadmap/Matrix/
-The [Data/Roadmap/Matrix](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/Roadmap/Matrix) folder contains data from Epigenome Roadmaps for the reference set of enhancers and promoters. 
+The [Data/Roadmap/Matrix](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/Roadmap/Matrix) folder contains DNase-seq and ChIP-seq enrichment profiles quantifing the activity of our reference set of enhancers and promoters. Namely, we downloaded H3K27ac, H3K4me3, and DNase-seq consolidated fold-change enrichment signal tracks (bigwig format) from the Roadmap Epigenomic consortium [web portal](https://egg2.wustl.edu/roadmap/data/byFileType/signal/consolidated/macs2signal/foldChange/) for all the cell and tissue types for which all the three epigenetics marks were available. 
 
-Each line contains the raw maximum activity signal measured across cell and tissue types (columns) within the genomic region of enhancers or promoters, according to the name file. At the end of each matrix the enhancer or promoter region must be specified. Namely, the following columns are mandatory:
+Each line of each matrix contains the maximum signal measured across cell and tissue types (columns) within the genomic region of enhancers or promoters, according to the name file. The maximum signal has been computed using [rtracklayer](https://www.bioconductor.org/packages/release/bioc/html/rtracklayer.html) R package.
+At the end of each matrix the enhancer or promoter region must be specified. Namely, the following columns are mandatory:
 -	`chr`, `start`, `end`, for enhancers;
 -	`chr`, `start`, `end`, `symbol`, `strand`: for promoters.
 
@@ -40,7 +41,9 @@ Customize the script [ComputeCanonicalCorrelationTAD.R](https://github.com/Elisa
 
 
 ### 2. Data/TAD/
-The [Data/TAD/](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/TAD) folder contains Topological Associating Domains (TADs) called for eleven Hi-C datasets covering nine different cell and tissue types, using the Local Score Differentiator ([LSD](https://www.bioconductor.org/packages/release/bioc/vignettes/HiCBricks/inst/doc/IntroductionToHiCBricks.html#call-topologically-associated-domains-with-local-score-differentiator-lsd)) algorithm. TADs are used to calculate the Hierarchical Contact (HC) score, a score proportional to the likelihood of enhancer-promoter (EP) pairs co-localization.
+The [Data/TAD/](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/TAD) folder contains Topological Associating Domains (TADs) called  using the Local Score Differentiator (LSD) TAD borders calling procedure ([LSD](https://www.bioconductor.org/packages/release/bioc/vignettes/HiCBricks/inst/doc/IntroductionToHiCBricks.html#call-topologically-associated-domains-with-local-score-differentiator-lsd)) algorithm, for eleven Hi-C datasets covering different cell lines and primary tissues from a compendium of public datasets. 
+
+We defined TADs as regions between two consecutive domain boundaries. LSD is based on the directionality index (DI) score originally proposed by [*Dixon et al. (2012)*](https://pubmed.ncbi.nlm.nih.gov/22495300/). Among the user defined parameters in this algorithm, the DI-window (i.e., the number of up-stream and down-stream bins over which the DI score is computed) influences the scale of the TAD domains that are identified: the larger the DI-window, the larger the average resulting TAD size. TADs are used to calculate the Hierarchical Contact (HC) score, a score proportional to the likelihood of enhancer-promoter (EP) pairs co-localization.
 
 Each file contains TADs called for one specific chromosome, organized in a list object:
 - level 1: list of Hi-C matrix resolutions (`10000` bp);
@@ -70,4 +73,21 @@ A representative example of the final expected output for chromsome 19 is provid
 **Note**: the CCA analysis can be performed for EP pairs localized within the same TAD in at least one of the hierarchy levels in at least one Hi-C dataset (i.e., HC score ≥ 1). To ensure the robustness of the downstream results, the script automatically discarded poorly-supported EP pairs (HC score ≤ `th.weight`, where `th.weight` is equal to the number of provided Hi-C datasets), as they may be the consequence of noise in the data depending on technical variables (e.g. coverage). To avoid this filter set `th.weight=0` at *line:107* in [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R).
 
 
+## /Results
+The [Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz](https://github.com/ElisaSalviato/3D-ETG/blob/main/Results/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz) file provide the complete list of candidate enhancer-target pairs (ETG) inferred in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687). The results are interactively consultable via shiny app at this [link](https://bioinformatics.ifom.eu/3D-ETG) or running the [app.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/app.R) script using:
 
+```
+shiny::runApp("3D-ETG/")
+```
+
+Each line corresponds to an ETG pair, where:
+- `chr`, `start`, `end`: enhancer region (hg19). Promoter proximal elements are not considered (3.5 kb upstream and 1.5 kb downstream of coding and non-coding TSS).
+symbol: target-gene symbol of protein coding genes, based on RefSeq annotations in UCSC. Target genes with overlapping promoter regions are merged as a single pairs (separated by semicolon).
+- `distance`: distance between mid-points of gene promoter and enhancer regions. Promoters are defined as 1.5kb upstream and 0.5kb downstream regions of TSS of coding genes.
+- `cca`: first canonical correlation coefficient. It is based on the enrichment of DNase-seq and H3K27ac for enhancers and DNase-seq, H3K27ac and H3K4me3 for promoters.
+- `HC`: Hierarchical Contact (HC) score. HC score is proportional to the likelihood of enhancer-promoter pairs co-localization within hierarchy of TADs across multiple Hi-C matrices.
+- `Pval.raw`: -log10 p-value obtained by testing the canonical correlation coefficient. It quantifies the amount of evidence provided by the data for the presence of synchronized activity between the enhancer and promoter gene.
+- `Pval.adapt`: -log10 adjusted p-values by considering the 3D co-localization information encoded in the HC score.
+- `GTEx`, `PancanQTL`, `pcHiC`: 1 if supported by the Genotype-Tissue Expression project, the pan-cancer eQTL analysis, or capture Hi-C experiments, respectively.
+
+For any further details, please refer to the *Materials and methods* section of the paper.
