@@ -56,7 +56,7 @@ Files must be named as `TAD_method_chr_binsize_info.RData`, where:
 
 The preferable TADs caller can be used, as long as the above described lists and file names structure are preserved. Algorithm that are able to call different hierarchy of TADs are advisable.
 
-**Note**: the level 2 names of the di-windows list will be converted as numeric and used to compute a scaling factor for the HC score: be sure to provide valid names for the conversion from string to numeric. To avoid that the scaling factor is computed set `use.resolution=FALSE` at line:100 in [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R).
+**Note**: the level 2 names of the di-windows list will be converted as numeric and used to compute a scaling factor for the HC score: be sure to provide valid names for the conversion from string to numeric. To avoid that the scaling factor is computed set `use.resolution=FALSE` at *line:100* in [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R).
 
 
 ## /Rscript: run the analysis
@@ -65,7 +65,7 @@ The [Rscript](https://github.com/ElisaSalviato/3D-ETG/tree/main/Rscript) folder 
 2. [AdjustPvaluesCca_20200305.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/AdjustPvaluesCca_20200305.R): it estimates Bayes-optimal p-value rejection threshold based on the 3D co-localization information encoded in the HC score, as implemented in the [adaptMT](https://cran.r-project.org/web/packages/adaptMT/index.html) R package. It allows to prioritize hypothesis that are more likely to be false. The function will read the `data.table` objects saved in the [Results/3D-ETG](https://github.com/ElisaSalviato/3D-ETG/tree/main/Results/3D-ETG) folder and will updat them with additional columns reporting the adjusted p-values. 
 3. [UtilityFunction_20200305.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/UtilityFunction_20200305.R): utility functions that are sourced by the two main functions described above.
 
-**Note**: the CCA analysis can be performed for EP pairs localized within the same TAD in at least one of the hierarchy levels in at least one Hi-C dataset (i.e., HC score ≥ 1). To ensure the robustness of the downstream results, the script automatically discarded poorly-supported EP pairs (HC score ≤ `th.weight`, where `th.weight` is equal to the number of provided Hi-C datasets), as they may be the consequence of noise in the data depending on technical variables (e.g. coverage). To avoid this filter set `th.weight=0` at line:107 in [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R).
+**Note**: the CCA analysis can be performed for EP pairs localized within the same TAD in at least one of the hierarchy levels in at least one Hi-C dataset (i.e., HC score ≥ 1). To ensure the robustness of the downstream results, the script automatically discarded poorly-supported EP pairs (HC score ≤ `th.weight`, where `th.weight` is equal to the number of provided Hi-C datasets), as they may be the consequence of noise in the data depending on technical variables (e.g. coverage). To avoid this filter set `th.weight=0` at *line:107* in [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R).
 
 
 
