@@ -15,10 +15,13 @@ Its three key features are:
 
 ## /Data: input data
 
-The data required for the analysis are:
-1.	two sets of matrices containing activity status for enhancers and promoters;
+The minimal data required for the analysis are:
+1.	two sets of matrices containing activity status for enhancers and promoters (e.g., DNase-seq, Chip-seq, RNA-seq);
 2.	genomic regions that describe hierarchy of chromatin structural domains derived from a set of Hi-C datasets. 
 
+The sets of input data used for the analysis in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687) are provided in the [Data/](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/) folder. 
+
+**Note**: The user can provide his/her own sets of input data, as long as the basic file structure (described in the following) is ensured. 
 
 ### 1. Data/Roadmap/Matrix/
 The [Data/Roadmap/Matrix](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/Roadmap/Matrix) folder contains DNase-seq and ChIP-seq enrichment profiles quantifing the activity of our reference set of enhancers and promoters. Namely, we downloaded H3K27ac, H3K4me3, and DNase-seq consolidated fold-change enrichment signal tracks (bigwig format) from the Roadmap Epigenomic consortium [web portal](https://egg2.wustl.edu/roadmap/data/byFileType/signal/consolidated/macs2signal/foldChange/) for all the cell and tissue types for which all the three epigenetics marks were available. 
@@ -64,7 +67,7 @@ The preferable TADs caller can be used, as long as the above described lists and
 
 ## /Rscript: run the analysis
 The [Rscript](https://github.com/ElisaSalviato/3D-ETG/tree/main/Rscript) folder contais the scripts required to perform the 3D-ETG analysis. Namely:
-1. [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R): it performs the CCA (as implemented in the [ccaPP](https://cran.rstudio.com/web/packages/ccaPP/index.html) R package) to quantify the strenght of coordinated activity for each EP pair and calculate the HC score. The function will return a [data.table](https://cran.r-project.org/web/packages/data.table/index.html) object (called `Cca.chr.res`) for each chromosome, that will be automatically saved in the [Results/3D-ETG](https://github.com/ElisaSalviato/3D-ETG/tree/main/Results/3D-ETG) folder (RData format). Together with the result table, to [GenomicRanges](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) objects with enhancers (`E.chr`) and promoters (`P.chr`) coordinates of each pair are returned.
+1. [ComputeCanonicalCorrelationTAD.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/ComputeCanonicalCorrelationTAD_20200305.R): it performs the CCA (as implemented in the [ccaPP](https://cran.rstudio.com/web/packages/ccaPP/index.html) R package) to quantify the strenght of coordinated activity for each EP pair and calculate the HC score. The function will return a [data.table](https://cran.r-project.org/web/packages/data.table/index.html) object (called `Cca.chr.res`) for each chromosome, that will be automatically saved in the [Results/3D-ETG](https://github.com/ElisaSalviato/3D-ETG/tree/main/Results/3D-ETG) folder (RData format). Together with the result table, two [GenomicRanges](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) objects with enhancers (`E.chr`) and promoters (`P.chr`) coordinates of each pair are returned.
 2. [AdjustPvaluesCca_20200305.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/AdjustPvaluesCca_20200305.R): it estimates Bayes-optimal p-value rejection threshold based on the 3D co-localization information encoded in the HC score, as implemented in the [adaptMT](https://cran.r-project.org/web/packages/adaptMT/index.html) R package. It allows to prioritize hypothesis that are more likely to be false. The function will read the [data.table](https://cran.r-project.org/web/packages/data.table/index.html) objects saved in the [Results/3D-ETG](https://github.com/ElisaSalviato/3D-ETG/tree/main/Results/3D-ETG) folder and will updat them with additional columns reporting the adjusted p-values. 
 3. [UtilityFunction_20200305.R](https://github.com/ElisaSalviato/3D-ETG/blob/main/Rscript/UtilityFunction_20200305.R): utility functions that are sourced by the two main functions described above.
 
