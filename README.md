@@ -12,7 +12,7 @@ The data required for the analysis are:
 2.	Genomic regions that describe domains called by a TADs caller at multiple level of resolution. 
 
 
-### 1. /Data/Roadmap/Matrix/
+### 1. Data/Roadmap/Matrix/
 The [Data/Roadmap/Matrix](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/Roadmap/Matrix) folder contains the original functional data used in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687), from Epigenome Roadmaps for the reference set of enhancers and promoters. Each line contains the raw maximum activity signal measured across cell and tissue types within the genomic region of enhancers or promoters, according to the name file. 
 
 At the end of each matrix the enhancer or promoter region must be specified. Namely, the following columns are mandatory:
@@ -25,10 +25,12 @@ Files must be named as `activity_type_key.tsv`, where:
 -	`key`: other info to identify the files.
 
 Customize the script **ComputeCanonicalCorrelationTAD.R**:
-1.	*line 26-27*: specify activity and key for enhancers.
-2.	*line 29-30*: specify activity and key for promoters.
+-	*line 26-27*: specify `key.enhancer` and `activity.enhancer`, according to `key` and `activity` information in the matrix file names for enhancers;
+-	*line 29-30*: specify `key.promoter` and `activity.promoter`, according to `key` and `activity` information in the matrix file names for promoter.
 
 Note: the matrices will be split by chromosome, pseudo-log2 transformed and normalized by quantile. Change or comment *line:115-126* to customize this option. 
 
 
+### 2. Data/TAD/
+The [Data/TAD/](https://github.com/ElisaSalviato/3D-ETG/tree/main/Data/TAD) folder contains Topological Associating Domains called for eleven Hi-C datasets covering nine different cell and tissue types.
 
