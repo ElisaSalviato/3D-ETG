@@ -47,7 +47,7 @@ Each file contains TADs called for one specific chromosome, organized in a list 
 - level 2: list of di-windows (`5`,`10`,`20`,`50`), also called TADs hierarchy (from lower to higher);
 - level 3: a [GenomicRanges](https://bioconductor.org/packages/release/bioc/html/GenomicRanges.html) object containing domains coordinates.
 
-Files must be names as `TAD_method_chr_binsize_info.RData`, where:
+Files must be named as `TAD_method_chr_binsize_info.RData`, where:
 - `TAD`: is a mandatory flag to reconize files containing domains;
 - `method`: the algorithm used to call TADs;
 - `chr`: the reference chromosome;
