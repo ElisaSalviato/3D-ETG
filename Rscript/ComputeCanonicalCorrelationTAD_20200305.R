@@ -97,7 +97,7 @@ for(chr in CHR){
 
 	## Compute the HC score matrices for each HiC matrix dataset and each level of hierarchy
 	cat("HC score.. ",sep="")
-	D.weight<-lapply(TAD.files,dataset.chr.tad.weight,path.directory=dir.TAD,E.list=GR.E.mid,P.list=GR.P.mid,bin.size=bin.size)
+	D.weight<-lapply(TAD.files,dataset.chr.tad.weight,path.directory=dir.TAD,E.list=GR.E.mid,P.list=GR.P.mid,bin.size=bin.size,use.resolution=TRUE)
 	# Merged all the matrix toghether
 	W.chr<-Reduce("+",D.weight)
 
