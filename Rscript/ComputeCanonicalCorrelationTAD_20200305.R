@@ -24,12 +24,12 @@ key.TAD<-c("TAD",method.tad)
  
 ## Use the key words to find the name of file
 key.enhancer<-c("enhancer_consolidated","max","20200305")
+enhancer.activity<-c("DNase","H3K27ac")
+
 key.promoter<-c("promoter_consolidated","max","20200305")
+promoter.activity<-c("DNase","H3K27ac","H3K4me3")
 
 CHR<-rev(c("chr1", "chr10", "chr11", "chr12", "chr13", "chr14", "chr15", "chr16", "chr17", "chr18", "chr19", "chr2", "chr20", "chr21", "chr22", "chr3", "chr4", "chr5", "chr6", "chr7", "chr8", "chr9", "chrX"))
-
-enhancer.activity<-c("DNase","H3K27ac")
-promoter.activity<-c("DNase","H3K27ac","H3K4me3")
 
 
 
