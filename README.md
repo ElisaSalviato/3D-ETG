@@ -1,8 +1,15 @@
 # Leveraging three-dimensional chromatin architecture for effective reconstruction of enhancer-target gene regulatory interactions
 
 The 3D-ETG repository contains all the data and source scripts required to reproduce the results presented in [*Salviato et al. (2021)*](https://doi.org/10.1101/2021.03.01.432687). 
+
+3D-ETG is a general framework for the definition of enhancer-target gene (ETG) pairs leveraging the current biological knowledge on chromatin 3D architecture and integrating heterogeneous functional genomics data into a rigorous statistical framework. 
+Its three key features are:
+1. **Statistical framework for quantifying enhancer-promoter pairs synchronization**. The method is flexible in terms of input, as it starts from user-defined sets of i) enhancer and promoter regions and ii) functional genomics data to quantify their activity ([Figure 1A](https://github.com/ElisaSalviato/3D-ETG/blob/main/Images/Figure1_revised_withcaption_small.png)). This flexibility is ensured by the use of Canonical-Correlation Analysis (CCA) to quantify the synchronization of enhancer-promoter (EP) pairs activity across cell types. Moreover, it is designed to leverage multiple types of functional genomics data, also accounting for the correlation within sets of features.
+2. **Hierarchical Contact (HC) score**. It incorporates chromatin architecture as experimentally measured by Hi-C, to compute the HC score accounting for ETG pairs 3D co-localization ([Figure 1B](https://github.com/ElisaSalviato/3D-ETG/blob/main/Images/Figure1_revised_withcaption_small.png)). Differently from previous methods, we leverage biological knowledge on TADs multi-scale hierarchical organization and their conservation across cell types.
+3. **Chromatin 3D architecture and functional genomics data integration**. The information on chromatin 3D architecture is used to increase the statistical power to detect ETG pairs synchronization, while controlling false discoveries ([Figure 1C](https://github.com/ElisaSalviato/3D-ETG/blob/main/Images/Figure1_revised_withcaption_small.png)). This is the first time that chromatin 3D architecture is directly integrated as side information in the statistical model for defining ETG pairs.
+
 <p align="center">
-  <img width="30%" src="https://github.com/ElisaSalviato/3D-ETG/blob/main/Images/Figure1_revised_withcaption_small.png">
+  <img width="60%" src="https://github.com/ElisaSalviato/3D-ETG/blob/main/Images/Figure1_revised_withcaption_small.png">
 </p>
 
 The complete list of candidate enhancer-promoter pairs (annotated with the HC score, corrected and uncorrected p-values, validations according to multiple reference datasets) is available in the [Result](https://github.com/ElisaSalviato/3D-ETG/tree/main/Results) folder and consultable via [shiny app](https://bioinformatics.ifom.eu/3D-ETG).
